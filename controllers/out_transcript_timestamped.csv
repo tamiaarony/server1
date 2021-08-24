@@ -1,609 +1,67 @@
 timestamp,text
-00:01,hello my name is juan gomez luna and i'm
-00:03,a senior researcher in the safari
-00:05,research group at eta zurich
-00:07,i'm going to present our work
-00:09,understanding a modern processing in
-00:10,memory architecture
-00:12,benchmarking and experimental
-00:13,characterization
-00:15,let's start with a brief executive
-00:16,summary in current computing systems
-00:19,data movement between the memory and
-00:20,storage units and the compute units
-00:22,is a major contributor to the execution
-00:25,time and the energy consumption
-00:27,processing in memory is a promising
-00:28,paradigm that can tackle this data
-00:30,movement bottleneck
-00:31,processing in memory essentially
-00:33,consists of placing
-00:34,compute capabilities near or inside
-00:36,memory
-00:37,all to explore for more than 50 years
-00:40,technology challenges prevented from the
-00:42,successful materialization
-00:44,upm has designed fabricated and
-00:46,commercializes the first publicly
-00:48,available real-world processing in
-00:50,memory architecture
-00:51,which consists of ddr4 chips embedding a
-00:54,small cores
-00:55,called dram processing units or gpus or
-00:58,work is an introduction to the upm team
-01:00,architecture and programming model
-01:02,a characterization of the vpu
-01:04,architecture and a benchmarking and
-01:05,workload suitability study
-01:07,our main contributions are a
-01:09,comprehensive characterization and
-01:11,analysis of the first commercially
-01:12,available team architecture
-01:14,and the first benchmark suite for a
-01:16,real-world processing memory
-01:18,architecture that is called prim
-01:20,prim contains 16 workloads that are
-01:22,memory bound in conventional processor
-01:24,centric systems
-01:26,we characterize these workloads with a
-01:28,strong and weak scaling
-01:29,analysis and compare them to their
-01:32,state-of-the-art
-01:33,cpu and gpu counterparts main takeaways
-01:36,of our work
-01:37,are the order characteristics for pin
-01:39,suitability programming recommendations
-01:41,suggestions and machines for hardware
-01:43,architecture designers of future pin
-01:45,systems
-01:46,and prim which can be used as
-01:48,programming samples and for evaluation
-01:50,and comparison
-01:51,of current and future pin systems data
-01:54,movement in current compute systems
-01:57,dominates performance and energy
-01:59,consumption
-02:00,according to wrestling studies data
-02:02,movement accounts for
-02:04,62 percent of total system energy in
-02:06,consumer applications 40
-02:08,in scientific applications and 35 in
-02:10,mobile applications
-02:12,if you take a look at a current system
-02:14,on shift you will find many components
-02:16,like cpu
-02:17,gpu hash hierarchy accelerators and
-02:20,among
-02:20,all these components and the dram there
-02:22,is a lot of data movement
-02:24,this data movement entails a huge
-02:26,bottleneck that can be alleviated
-02:28,by making compute systems more data
-02:31,centric
-02:32,and processing memory is a way of doing
-02:34,it processing in memory
-02:35,proposes computing where it makes sense
-02:38,where the data resides
-02:40,the opm team architecture consists of
-02:43,ddr4 beams
-02:44,with fin chips that contain memory
-02:47,arrays
-02:47,and small processors called gpus in our
-02:50,paper
-02:51,we present this architecture and perform
-02:54,a thorough benchmarking and
-02:55,an experimental characterization
-02:58,throughout all paper and also throughout
-02:59,this presentation
-03:01,you will find some color boxes with
-03:03,programming recommendations
-03:05,key observations and key takeaways
-03:09,let's start with an overview of a
-03:11,upman-based pin system
-03:13,the integration of up mendings in a
-03:16,system follows the accelerator
-03:18,model where the upmds are seen as an
-03:21,accelerator or a co-processor
-03:24,in this model the data movement needs to
-03:27,happen
-03:28,between the host main mem the main
-03:31,memory the
-03:32,the host processor and the accelerator
-03:34,and this data movement needs to be
-03:35,explicit
-03:37,also explicit needs to be the kernel
-03:39,launch
-03:40,onto the upm processors being the kernel
-03:43,the function that is going to be
-03:44,executed onto these
-03:46,you payment processors as bpus this
-03:48,resembles gpu computing
-03:50,typical system organization is something
-03:53,like this with a whole cpu
-03:55,connected to some dram beams that
-03:59,represent the main memory and some
-04:01,eukman dims that represent the
-04:03,team enabled memory inside each
-04:07,up and dim there are 8 or 16 chips which
-04:10,means
-04:11,one or two ranks of eight chips each
-04:15,and if we take a closer look at the pin
-04:16,chip we will find
-04:18,some dram banks that are called nram of
-04:21,size 64 megabytes
-04:23,and eight dram processing units
-04:26,in total there are 64 gpus
-04:30,per rank and also 64 mran banks
-04:33,in our work we have used a system with
-04:36,20
-04:37,upmandims that features up to
-04:40,2500 dpus and 160
-04:44,gigabytes of bim enabled memory we have
-04:47,also used a smaller system with 640 gpus
-04:51,and 40 gigabytes of bim enabled memory
-04:55,can give a few hints about upman
-04:59,programming and about the interaction
-05:00,between the cpu and the dbus
-05:02,our first programming example is vector
-05:05,addition one of our benchmarks
-05:07,in vector addition we perform the
-05:09,element wise addition of two input
-05:11,vectors a and b and store the result in
-05:13,a vector c
-05:14,what we do in the euphemism-based pin
-05:16,system is partitioning the arrays across
-05:18,gpus
-05:20,and also inside each of the dpu we have
-05:23,software threads running that are called
-05:25,tasklets that process the data that has
-05:27,been assigned to
-05:28,each tpu the cpu
-05:31,communicates with the dpus via transfers
-05:34,from main memory to the bim enable
-05:36,memory that we call
-05:38,cpu dpu transfers and transfers from
-05:41,the pim enabled memory to the main
-05:43,memory that we call
-05:44,dpu cpu transfers there are three types
-05:47,of these transfers there are serial
-05:48,transfers
-05:49,when we are targeting a single dbu and a
-05:51,single embryon bank
-05:53,there are parallel transfers when we
-05:54,perform the transfer
-05:56,to multiple dpus at the same time and
-05:58,there are broadcast transfers when we
-06:00,transfer a single buffer
-06:01,to multiple gpus there is no direct
-06:05,communication channel between dbus and
-06:07,this means
-06:08,that inter gpu communication takes place
-06:11,via the host cpu
-06:12,using cpu gpu and dpu cpu transfers
-06:15,that obviously entail an important
-06:18,overhead
-06:19,there are some example communication
-06:21,patterns among our benchmarks
-06:23,for example merging of partial results
-06:26,to obtain the final result
-06:28,or redistribution of intermediate
-06:29,results or further computation
-06:32,how fast are these transfers we measure
-06:34,these using
-06:36,uh two micro benchmarks and two
-06:37,experiments in the first of
-06:39,our experiments we use a single dpu and
-06:42,we vary the transfer size from eight
-06:44,bytes
-06:45,to 32 megabytes so here
-06:48,we see the results for the bandwidth
-06:50,results for cpu gpu transfers
-06:52,for dpu cpu transfers and a key
-06:54,observation means that
-06:56,larger cpu gpu and dpu cpu transfers
-06:59,between the host main memory
-07:00,and the m-ram banks result in higher
-07:03,sustained bandwidth
-07:05,we also run experiments on one rank in
-07:08,this case we vary the number of gpus
-07:10,from 1 to 64.
-07:12,these are the bandwidth results for
-07:14,serial transfers
-07:16,these are the bandwidth results for
-07:18,parallel and broadcast transfers
-07:20,and one key observation is that the
-07:22,sustained bandwidth of parallel cpu gpu
-07:24,and gpu cpu transfers between the host
-07:27,main memory
-07:27,and the mram banks increases with the
-07:30,number of
-07:31,gpus inside a rank now
-07:34,let's take a close look at the drum
-07:36,processing unit and characterize
-07:38,it so if we take a look inside a pinchy
-07:42,we will find a ddr4 interface
-07:44,for the host to access the ram banks
-07:47,we have a control status interface for
-07:49,the host to send commands to the dpus
-07:52,we find eight of these dram banks called
-07:55,engram of size 64 megabytes and a dvma
-07:58,engine to access it we have two sram
-08:01,based
-08:02,memories one for instructions and one
-08:04,and one
-08:05,for operands called wram and we have
-08:08,the dpu pipeline this dpu pipeline
-08:12,is an in-order pipeline and today it can
-08:14,run at a frequency of up to 350
-08:16,megahertz
-08:18,it's a fine-grained multi-threaded
-08:19,architecture with up to 24 hardware
-08:21,threads
-08:22,and contains 14 pipeline stages
-08:25,we measure the arithmetic throughput for
-08:28,different data types and operations
-08:30,what we do is reading an array moving it
-08:32,to wrap
-08:33,and streaming over this array
-08:37,performing read modify write operations
-08:40,we run our experiments on a single gpu
-08:43,these are the results for integers 32
-08:45,and 64 bit
-08:46,values and these are the results for
-08:48,float and double values
-08:51,these are the results for and
-08:53,subtraction
-08:54,and these for multiplication and
-08:56,division and these are the results for
-08:58,the rest of data types
-08:59,one key observation is that in all cases
-09:02,the throat put saturates at
-09:04,11 or more tasklets and this observation
-09:06,is consistent across
-09:08,data types and operations another
-09:11,observation is that there is a
-09:13,large throughput difference between
-09:15,integer and floating point
-09:16,and also between addition subtraction
-09:19,and multiplication division
-09:21,the reason is that bpus provide native
-09:24,support for
-09:25,32 and 64-bit integration and
-09:28,subtraction leading to high throughput
-09:30,while they don't have native support for
-09:32,multiplication division floating point
-09:34,operations
-09:35,these operations are emulated by the eup
-09:38,memorandal library
-09:40,which leads to much lower throughput in
-09:42,our paper we also analyze the access
-09:45,to wrap but now let's take a look at the
-09:49,access to
-09:50,mram we measure the bandwidth
-09:53,to enron for different access patterns
-09:55,we use different micro benchmarks
-09:57,first we measure the latency of a single
-10:00,dma transfer
-10:02,then we show we also implement the
-10:04,string benchmark to measure the
-10:05,bandwidth of the string benchmark
-10:07,and benchmarks for strided and random
-10:10,access patterns
-10:11,let's start with the latency of a single
-10:12,dma transfer
-10:15,so here for different transfer sizes we
-10:18,are going to show
-10:19,the latency of pump and bandwidth of
-10:21,engram read and
-10:22,embrace right transfers the implant
-10:25,bandwidth can be obtained from
-10:27,this expression after after measuring
-10:29,the emblem latency
-10:31,one thing we notice is that we can model
-10:33,the engine latency with a linear
-10:34,expression
-10:35,something like this where the embryonic
-10:37,latency is equal to a fixed cost
-10:39,alpha and a variable cost beta times
-10:42,size being size the size of the transfer
-10:45,we notice that our
-10:48,model matches perfectly the mram latency
-10:51,measurements
-10:52,and according to our measurements this
-10:54,beta equals
-10:55,0.5 cycles per byte this way the
-10:59,theoretical maximum embryon bandwidth is
-11:01,700 megabytes per second
-11:03,and our measurements are quite close to
-11:05,that
-11:07,one key observation is that the m gram
-11:10,bank access latency
-11:12,increases linearly with the transfer
-11:14,size and also that the maximum
-11:16,theoretical
-11:17,engram bandwidth is 2 bytes per cycle
-11:20,now let's take a quick look at the
-11:22,results for the stream benchmark
-11:24,we have the four versions of the stream
-11:27,benchmark
-11:27,but we have two versions of the
-11:29,benchmark one thing we notice
-11:31,is that for some of these the throat put
-11:34,saturates at less than 11 tasklets
-11:37,while for others scale and triad the
-11:39,throat would saturate
-11:40,at 11. this is because
-11:43,when the access latency to an amgram
-11:46,bank for a streaming benchmark is larger
-11:48,than the pipeline latency
-11:49,the performance of the gpu saturates at
-11:52,a number of tasklets smaller than 11.
-11:54,this is a memory bound workload however
-11:58,when the pipeline latency for a
-11:59,streaming benchmark is larger than the
-12:02,mram access latency
-12:03,the performance of the gpu saturates at
-12:06,11 tasklets
-12:07,this is a compute bound workload in the
-12:10,paper you can also find results for
-12:12,extradited and random access patterns
-12:15,now let's take a look at the arithmetic
-12:17,throughput versus the operational
-12:19,intensity
-12:21,in this experiment we want to
-12:23,characterize memory bound and compute
-12:25,bound regions for different data types
-12:27,and operations
-12:28,what we do is moving one chunk of data
-12:30,from engram to wrap
-12:32,performing a variable number of
-12:34,operations on the data
-12:35,and running by right back to embrace
-12:37,this is inspired by the roof line model
-12:39,that represents performance
-12:41,versus the arithmetic of operational
-12:43,intensity in our work we define
-12:45,operational intensity as the number of
-12:47,arithmetic operations performed per byte
-12:50,access from embraer
-12:51,the pipeline latency changes with the
-12:53,operational intensity in our experiments
-12:55,but the engram access latency is fixed
-12:59,we can take a look at a look at this
-13:00,result for addition of 32-bit elements
-13:04,and what we observe is that it is that
-13:06,there is a memory bound region where the
-13:08,arithmetic throughput increases with the
-13:10,operational intensity
-13:12,and there is a compute balanced region
-13:14,where the arithmetic throughput is flat
-13:15,at its maximum and saturates
-13:17,with 11 tasklets the throat called
-13:20,saturation point is the operational
-13:22,intensity where the transition between
-13:23,the memory bound
-13:24,and compute bound region happens and
-13:27,this throughput saturation point is
-13:29,very low it's actually very low for all
-13:31,data types and operations
-13:35,the arithmetic throughput of the dbu
-13:36,saturates at low or very low operational
-13:39,intensity
-13:40,and thus the dpu is fundamentally a
-13:42,compute bound processor
-13:44,so we expect that most real-world
-13:46,workloads
-13:47,will be compute bound in the uk and pim
-13:50,architecture
-13:52,let's take a look at the prime
-13:53,benchmarks
-13:55,the idea is to come up with a common set
-13:58,of workloads that can be used for
-14:00,different purposes like evaluating the
-14:02,opm team architecture
-14:04,comparing software improvement in
-14:05,compilers comparing future
-14:08,team architectures and hardware etc we
-14:11,use two selection criteria
-14:12,we select workloads from different
-14:14,domains and also workloads that are
-14:16,memory bound on conventional processors
-14:18,we have a total of 14 workloads and 16
-14:21,different benchmarks
-14:23,if we take a look at the applications
-14:24,domain we will see dense and linear
-14:26,algebra
-14:27,databases graph processing neural
-14:30,networks bioinformatics etc
-14:33,all these workloads fall in the memory
-14:35,bound area of the roofline on
-14:37,a intelsion cpu and these workloads are
-14:41,also diverse they have different memory
-14:43,access patterns computation patterns
-14:45,and communication synchronization
-14:47,patterns either intra dpu or
-14:49,into the inter gpu we evaluate with
-14:54,strong and weak scaling experiments and
-14:56,also compare them to cpu and gpu
-14:58,we use two upm day systems in our
-15:00,evaluation
-15:02,and we have strong and weak scaling
-15:03,experiments
-15:05,on one dpu one rank and up to 32 ranks
-15:12,these oh we also compare to
-15:15,uh you can or we payment-based systems
-15:17,to cpu and gpu
-15:21,uh here you can see the results for a
-15:23,strong scaling of one dbu
-15:25,here we change the number of task lists
-15:27,from 1 to 16
-15:28,and we show the breakdown of execution
-15:31,time
-15:32,for the dpu kernel time in the dpu
-15:35,synchronization time
-15:37,cpu dpu transfers gpu cpu transfers
-15:40,and also the speed up over one tesla
-15:44,some observations are that the best
-15:46,performing number of tasklets
-15:48,is typically 16 for most of the
-15:50,workloads
-15:51,and this leads us to this key
-15:53,observation a number of tasklets greater
-15:55,than 11
-15:56,is a good choice for most real-world
-15:58,workloads
-16:01,another observation is that many of
-16:04,these
-16:04,some of these workloads don't need
-16:06,intra-dp using synchronization
-16:08,primitives and other synchronization is
-16:10,lightweight
-16:11,but in three of them where they use
-16:13,mutexes there is a lot of contention due
-16:15,to the access to shared data structures
-16:19,for example in one of our versions of
-16:22,histogram
-16:23,we have task let's inside the gpu
-16:26,updating a common histogram
-16:29,and because they need to use mutexes we
-16:32,see that the best performing number of
-16:33,tasklets is not 16
-16:35,but eight due to the contention in the
-16:37,access to the shared histogram
-16:40,so intensive use of intradipu
-16:42,synchronization
-16:43,across tasklets like mutexes barriers or
-16:46,handshakes
-16:47,may limit the scalability and the best
-16:49,performing number of task leds may be
-16:51,lower than 11 in these cases
-16:54,the paper also shows results of strongly
-16:56,scaling on one rank
-16:58,on 32 ranks and weak scaling experiments
-17:02,you you can find a lot of insights and
-17:04,key observations for all these
-17:06,experiments in the paper
-17:08,now let's take a quick look at the
-17:09,comparisons to cpu and gpu
-17:13,these are the results for the
-17:15,performance comparison we have some
-17:17,workloads that we identify
-17:19,like more pin suitable some other
-17:22,benchmarks are less pin suitable
-17:24,and these are the geomet values so one
-17:27,key observation is that
-17:28,both euphemism-based pin systems
-17:30,outperform the cpu
-17:32,for all benchmarks as except three of
-17:34,them
-17:36,another observation is that the larger
-17:38,gpus
-17:40,utm based pin system outperforms the gpu
-17:43,for 10
-17:44,prime benchmarks with an average of 2.54
-17:48,times these 10 workloads have three key
-17:51,characteristics
-17:53,they use extremely memory accesses they
-17:55,have
-17:56,no more little inter gpu synchronization
-17:58,and they have no more little
-18:00,use of integral multiplication integral
-18:02,division and floating point operations
-18:04,these three characteristics make a
-18:06,workload potentially suitable to the
-18:08,upmp
-18:09,architecture we also have in the paper
-18:12,energy comparison
-18:13,and we and we show that for 12
-18:16,benchmarks the 600 dpu system provide
-18:19,energy savings of 5.23 times
-18:22,over the cpu
-18:25,let's finish with some key takeaways
-18:29,so one observation in our paper is that
-18:31,the throughput saturation point
-18:33,is very low for all operations and data
-18:36,types
-18:37,so key takeaway one is that the up
-18:40,beams architecture is fundamentally
-18:42,compute bound
-18:43,and as a result most suitable workloads
-18:46,are memory bound in conventional
-18:48,processors
-18:50,another key takeaway is that the most
-18:53,well-suited workloads for the european
-18:55,beam architecture use no arithmetic
-18:57,operations or use
-18:58,only simple operations like bitwise or
-19:01,integer additional subtraction
-19:04,another key observation key takeaway is
-19:07,that
-19:07,most well-suited workloads for the opm
-19:10,team architecture
-19:11,require little or no communication
-19:13,across gpus what we call the internet
-19:15,gpu communication
-19:18,and key takeaway number four says that
-19:21,the upm based pin
-19:22,systems outperform a state-of-the-art
-19:24,cpus
-19:25,in terms of energy and performance on
-19:28,most spring benchmarks
-19:30,and they outperform gpus for a majority
-19:33,of prim benchmarks that
-19:34,have the three characteristics that we
-19:36,presented before
-19:38,and the outlook is even more positive
-19:40,for future pin systems
-19:43,the eukman-based pin systems are more
-19:45,energy efficient than
-19:46,state-of-the-art cpus and gpus on
-19:49,workloads that they provide performance
-19:52,improvements over cpu and gpu and the
-19:54,reason is that
-19:56,both the source of performance
-19:58,improvements and
-19:59,energy savings is the less data movement
-20:03,between memory and processors that
-20:05,processing and memory systems can
-20:07,provide
-20:10,so we know that data movement is a huge
-20:14,bottleneck in current computing systems
-20:16,processing in memory is a way of
-20:18,alleviating it and implementing is the
-20:20,first company that has
-20:22,fabricated and commercializes a
-20:24,real-world processing in memory
-20:25,architecture
-20:26,or work introduces this processing in
-20:28,memory architecture and programming
-20:30,model
-20:30,characterizes it and performs a
-20:33,benchmarking
-20:34,and world suitability study our main
-20:36,contributions are a comprehensive
-20:38,characterization and analysis of this
-20:39,architecture
-20:40,a new benchmark suite the first
-20:42,benchmark suite for a real-world
-20:44,processing in memory architecture
-20:46,with 16 workloads we have analyzed
-20:49,our workloads with strong weak scaling
-20:52,analysis
-20:53,and compared to cpu and gpu key
-20:56,takeaways of our work are the world
-20:58,characteristics for
-20:59,pin suitability programming
-21:01,recommendations suggestions and things
-21:03,for hardware and architecture designers
-21:05,of future pin systems
-21:06,and the print benchmark suite which can
-21:08,be used as programming samples
-21:10,and also for evaluation and comparison
-21:12,of current and future pin systems
-21:14,you can find all the details in all
-21:17,papers
-21:17,and all our codes micro benchmarks
-21:21,benchmarks and
-21:22,script are publicly available in our
-21:24,repository
-21:25,thank you very much for your attention
+00:00,hello there and welcome to the
+00:02,unbelievable
+00:03,a chimpanzee from japan caused quite a
+00:06,disruption when he escaped from a zoo
+00:08,and started scaling the power lines a
+00:16,man saves a beautiful
+00:17,but very dangerous swordfish
+00:40,a gazelle makes an escape from a hyena
+00:42,and a cheetah
+00:44,by playing dead
+01:10,oh
+01:15,oh my gosh i'm not sure if this sheep
+01:19,has learned to use a tire swing
+01:21,or is just stuck
+01:27,that's funny
+01:57,a man approaches what he believes to be
+01:59,a sleeping fluffy animal
+02:20,yes
+02:27,honey honey come here
+02:31,some weird stuff going on a woman
+02:35,fishing
+02:36,has no clue about the wildlife currently
+02:38,passing her by
+02:55,an orangutan from indonesia stole a boat
+02:58,and refuses to give it back
+03:21,[Music]
+03:25,this pup really doesn't like it when
+03:27,guests come over
+03:41,[Music]
+03:44,oh
+03:54,here is a rare sighting of a massive
+03:56,oarfish on the coast of mexico oh my
+03:59,gosh
+04:00,i'm taking a movie of it
+04:26,wow
+04:31,cctv captures a skunk dancing on his two
+04:34,front legs
+04:48,a random dog sees a hose and wants to
+04:50,come play
+05:08,oh
+05:13,[Music]
+05:20,taurus are reminded that bisons probably
+05:23,shouldn't be approached
+05:24,so closely
+05:47,a pack of hyenas stand off against a
+05:50,female lion
+06:02,[Music]
+06:18,oh
+06:21,here is an awesome moment of two kittens
+06:23,watching tom and jerry
+06:45,[Music]
+07:00,uh
+07:08,[Laughter]
+07:13,[Music]
+07:14,is
+07:22,this giant moose was recorded wandering
+07:24,the streets in alaska
+07:26,wow kalia look at him he's huge
+07:30,hey there but you gotta
+07:42,okay
+08:02,birds were recorded acting quite strange
+08:05,around a skyscraper in melbourne
+08:08,[Music]
+08:10,australia
+08:19,thank you for watching and i'll see you
+08:20,next time on the unbelievable
