@@ -8,6 +8,9 @@ from myProject.ImageProcessing.Execute import Execute
 app = Flask(__name__)
 
 
+
+
+
 @app.route('/upload', methods=['GET', 'POST'])
 @cross_origin()  # מגשר בין הפייתון לריאקט
 def upload_file():  # מקבלת תמונות של ת.ז. וספח ומחזירה לריאקט מילון
