@@ -8,6 +8,9 @@ import speech_recognition as sr
 import wave, math, contextlib
 
 
+
+
+
 app = Flask(__name__)
 
  
